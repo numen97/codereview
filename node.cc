@@ -2,8 +2,6 @@
 //http://10.241.14.34:11110/
 
 #include "node.h"
-//#include "assert.h"
-#include "stdio.h"
 
 Node::Node(char data) {
 	this->pdata = data;
