@@ -3,33 +3,79 @@
 #include "typing_machine.h"
 
 TypingMachine::TypingMachine() {
-  return;
+	this->head = NULL;
+	this->cursor = NULL;
 }
 
 void TypingMachine::HomeKey() {
-  return;
+	cursor = head;
+    return;
 }
 
 void TypingMachine::EndKey() {
-  return;
+	while (cursor->GetNextNode()) {
+		cursor = cursor->GetNextNode();
+	}
+    return;
 }
 
 void TypingMachine::LeftKey() {
-  return;
+	Node* temp;
+	temp = cursor->GetPreviousNode();
+	if (temp)
+		cursor = temp;
+	return;
 }
 
 void TypingMachine::RightKey() {
-  return;
+	Node* temp;
+	temp = cursor->GetNextNode();
+	if (temp)
+		cursor = temp;
+	return;
 }
 
 bool TypingMachine::TypeKey(char key) {
-  return false;
+	if (32 <= key && key <= 126){
+		Node* node = new Node(key);
+		node->pdata = key;
+		node->next = NULL;
+
+		if (head == NULL) {
+			head = node;
+			cursor = node;
+		}
+		else {
+			node->prev = cursor;
+			cursor->next = node;
+			cursor = node;
+		}
+		return true;
+	}
+    return false;
 }
 
 bool TypingMachine::EraseKey() {
-  return false;
+	cursor->ErasePreviousNode();
+	return false;
 }
 
 std::string TypingMachine::Print(char separator) {
-  return "";
+	Node* head = this->head;
+//	while (head) {
+	while (head && (head!=cursor)) {
+		printf("%c", head->pdata);
+		head = head->next;
+	}
+	if ((head) && separator!='0')
+		printf("%c", separator);
+
+	head = cursor;
+//	head = head->next;
+	while (head) {
+		printf("%c", head->pdata);
+		head = head->next;
+	}
+
+	return "";
 }
